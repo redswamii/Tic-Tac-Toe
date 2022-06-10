@@ -1,0 +1,162 @@
+#! /bin/csh -f
+clear
+
+rm board.txt display.txt turn.txt replace.txt
+
+echo " ___________________________________________ " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |    aaaaa    |    bbbbb    |    ccccc    | " >> board.txt
+echo " |    aaaaa    |    bbbbb    |    ccccc    | " >> board.txt
+echo " |    aaaaa    |    bbbbb    |    ccccc    | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |_____________|_____________|_____________| " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |    ddddd    |    eeeee    |    fffff    | " >> board.txt
+echo " |    ddddd    |    eeeee    |    fffff    | " >> board.txt
+echo " |    ddddd    |    eeeee    |    fffff    | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |_____________|_____________|_____________| " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |    ggggg    |    hhhhh    |    iiiii    | " >> board.txt
+echo " |    ggggg    |    hhhhh    |    iiiii    | " >> board.txt
+echo " |    ggggg    |    hhhhh    |    iiiii    | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |_____________|_____________|_____________| " >> board.txt
+
+cat board.txt | tee -a turn.txt
+clear
+cat board.txt | tee -a display.txt
+
+# Turn 1
+set input = $<
+        sed -i 's/'$input'/X/g' display.txt
+        sed -i 's/'$input'/X/g' turn.txt
+
+sed -i 's/[a-i]/ /g' display.txt
+
+clear
+
+cat display.txt
+
+# Turn 2
+set input = $<
+        sed -i 's/'$input'/O/g' turn.txt
+
+cat turn.txt | tee -a replace.txt
+        sed -i 's/[a-i]/ /g' replace.txt
+
+cat replace.txt > display.txt
+
+clear
+
+cat display.txt
+
+rm display.txt replace.txt
+
+# Turn 3
+set input = $<
+        sed -i 's/'$input'/X/g' turn.txt
+
+cat turn.txt | tee -a replace.txt
+        sed -i 's/[a-i]/ /g' replace.txt
+
+cat replace.txt > display.txt
+
+clear
+
+cat display.txt
+
+rm display.txt replace.txt
+
+# Turn 4
+set input = $<
+        sed -i 's/'$input'/O/g' turn.txt
+
+cat turn.txt | tee -a replace.txt
+        sed -i 's/[a-i]/ /g' replace.txt
+
+cat replace.txt > display.txt
+
+clear
+
+cat display.txt
+
+rm display.txt replace.txt
+
+# Turn 5
+set input = $<
+        sed -i 's/'$input'/X/g' turn.txt
+
+cat turn.txt | tee -a replace.txt
+        sed -i 's/[a-i]/ /g' replace.txt
+
+cat replace.txt > display.txt
+
+clear
+
+cat display.txt
+
+rm display.txt replace.txt
+
+# Turn 6
+set input = $<
+        sed -i 's/'$input'/O/g' turn.txt
+
+cat turn.txt | tee -a replace.txt
+        sed -i 's/[a-i]/ /g' replace.txt
+
+cat replace.txt > display.txt
+
+clear
+
+cat display.txt
+
+rm display.txt replace.txt
+
+# Turn 7
+set input = $<
+        sed -i 's/'$input'/X/g' turn.txt
+
+cat turn.txt | tee -a replace.txt
+        sed -i 's/[a-i]/ /g' replace.txt
+
+cat replace.txt > display.txt
+
+clear
+
+cat display.txt
+
+rm display.txt replace.txt
+
+# Turn 8
+set input = $<
+        sed -i 's/'$input'/O/g' turn.txt
+
+cat turn.txt | tee -a replace.txt
+        sed -i 's/[a-i]/ /g' replace.txt
+
+cat replace.txt > display.txt
+
+clear
+
+cat display.txt
+
+rm display.txt replace.txt
+
+# Turn 9
+set input = $<
+        sed -i 's/'$input'/X/g' turn.txt
+
+cat turn.txt | tee -a replace.txt
+        sed -i 's/[a-i]/ /g' replace.txt
+
+cat replace.txt > display.txt
+
+clear
+
+cat display.txt
+
+rm board.txt display.txt turn.txt replace.txt
