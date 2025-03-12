@@ -1,0 +1,128 @@
+#!/bin/csh -f
+
+# Improved Tic-Tac-Toe game in C shell
+# Create initial board
+rm -f board.txt game.txt 2>/dev/null
+
+# Create the initial board with letter placeholders
+echo " ___________________________________________ " > board.txt
+echo " |             |             |             | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |    aaaaa    |    bbbbb    |    ccccc    | " >> board.txt
+echo " |    aaaaa    |    bbbbb    |    ccccc    | " >> board.txt
+echo " |    aaaaa    |    bbbbb    |    ccccc    | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |_____________|_____________|_____________| " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |    ddddd    |    eeeee    |    fffff    | " >> board.txt
+echo " |    ddddd    |    eeeee    |    fffff    | " >> board.txt
+echo " |    ddddd    |    eeeee    |    fffff    | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |_____________|_____________|_____________| " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |    ggggg    |    hhhhh    |    iiiii    | " >> board.txt
+echo " |    ggggg    |    hhhhh    |    iiiii    | " >> board.txt
+echo " |    ggggg    |    hhhhh    |    iiiii    | " >> board.txt
+echo " |             |             |             | " >> board.txt
+echo " |_____________|_____________|_____________| " >> board.txt
+
+# Copy the initial board to the game file
+cp board.txt game.txt
+
+# Available moves
+set available = "a b c d e f g h i"
+set moves_made = ""
+
+# Create a visual board for display (without letters)
+cp board.txt display.txt
+sed -i 's/[a-i]/ /g' display.txt
+
+# Function to check if a move is valid
+alias check_move 'echo "$available" | grep -q "\<$input\>" && echo "valid" || echo "invalid"'
+
+# Function to check for a win
+alias check_win 'grep -q "$1$1$1" $2 && echo "win" || echo "continue"'
+
+# Function to update available moves
+alias update_available 'set available = `echo $available | sed "s/$input//g"`'
+
+# Main game loop
+set player = "X"
+set turn = 1
+set game_over = 0
+
+while ($turn <= 9 && $game_over == 0)
+    # Clear screen and show current board
+    clear
+    cat display.txt
+    
+    # Show available moves
+    echo "\nTurn $turn: Player $player's turn"
+    echo "Available moves: $available"
+    
+    # Get player input
+    echo -n "Enter your move (a-i): "
+    set input = $<
+    
+    # Validate move
+    set valid = `check_move`
+    
+    if ("$valid" == "invalid") then
+        echo "Invalid move. Please choose from available options: $available"
+        sleep 2
+        continue
+    endif
+    
+    # Update available moves
+    update_available
+    
+    # Update game board
+    sed -i "s/$input/$player/g" game.txt
+    
+    # Update display board
+    cp game.txt display.txt
+    sed -i 's/[a-i]/ /g' display.txt
+    
+    # Check for win (horizontal, vertical, diagonal)
+    # This is a simplified version - a complete implementation would check all win conditions
+    
+    # Check horizontal wins
+    foreach row (3 4 5 10 11 12 17 18 19)
+        set line = `sed -n "${row}p" game.txt`
+        if ((`echo $line | grep -o "$player" | wc -l` >= 3)) then
+            set game_over = 1
+            break
+        endif
+    end
+    
+    # Switch player
+    if ($player == "X") then
+        set player = "O"
+    else
+        set player = "X"
+    endif
+    
+    @ turn++
+end
+
+# Show final board
+clear
+cat display.txt
+
+# Game result
+if ($game_over == 1) then
+    # Switch back to the winner (since we already switched players)
+    if ($player == "X") then
+        set player = "O"
+    else
+        set player = "X"
+    endif
+    echo "\nPlayer $player wins!"
+else
+    echo "\nGame ended in a draw!"
+endif
+
+# Clean up temporary files
+rm -f board.txt game.txt display.txt
